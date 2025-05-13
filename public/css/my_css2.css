@@ -1,0 +1,16 @@
+ol {margin-left: 20px;padding-left: 0px;}
+
+ol.cht {list-style-type: cjk-ideographic;}
+
+li::before {
+    left: 41px;
+    color: black; /* Or a color you prefer */
+    background: white;
+    position: absolute;
+    display: block;
+}
+
+
+li {
+    padding-left: 3px;
+}

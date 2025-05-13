@@ -1,0 +1,98 @@
+@extends('layouts.master_clean')
+
+@section('content')
+    <div class="col-12">
+        <h3>修改填報資料</h3>
+        <div class="card">
+            <div class="card-header">
+                <form action="{{ route('edu_report.update',$report->id) }}" method="post">
+                    @method('patch')
+                    @csrf
+                    <strong>名稱：</strong>
+                    <h2><input type="text" name="name" value="{{ $report->name }}" required></h2>
+                    <button onclick="return confirm('確定修改名稱？')">修改名稱</button>
+                </form>
+            </div>
+            <div class="card-body">
+                <strong>說明：</strong>
+                <div class="form-group">
+                    <form action="{{ route('edu_report.update',$report->id) }}" method="post">
+                        @method('patch')
+                        @csrf
+                    {{ Form::textarea('content', $report->content, ['id' => 'content', 'class' => 'form-control', 'rows' => 6, 'placeholder' => '請輸入內容','required'=>'required']) }}
+                    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+                    <script>
+                        CKEDITOR.replace('content',{
+                            toolbar: [
+                                { name: 'document', items: [ 'Bold', 'Italic','TextColor','-','NumberedList','BulletedList','Outdent', 'Indent', '-', 'Undo', 'Redo' ] },
+                            ]
+                        });
+                    </script>
+                        <button onclick="return confirm('確定修改說明？')">修改說明</button>
+                    </form>
+                </div>
+                <strong>附檔：</strong>
+                <div class="form-group">
+                    <form action="{{ route('edu_report.add_file') }}" method="post" enctype="multipart/form-data">
+                        {{ Form::file('files[]', ['class' => 'form-control','multiple'=>'multiple','required'=>'required']) }}
+                        <input type="hidden" name="report_id" value="{{ $report->id }}">
+                        <button onclick="return confirm('確定增加附檔？')">增加附檔</button>
+                    </form>
+                    @foreach($files as $k=>$v)
+                        <a href="{{ route('edu_report.del_file',['id'=>$report->id,'file'=>$v]) }}" class="btn btn-danger btn-sm" style="margin:3px" onclick="return confirm('確定刪除此附件？')"><i class="fas fa-trash"></i> {{ $v }}</a>
+                    @endforeach
+                </div>
+                <strong>問題：</strong>
+                <ul>
+                    <li>
+                        <form action="{{ route('edu_report.add_one') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="report_id" value="{{ $report->id }}">
+                            {{ Form::text('title', null, ['id' => 'title1', 'placeholder' => '增加新題目','required'=>'required']) }}
+                            <button onclick="return confirm('確定增加？')">增加</button>
+                        </form>
+                    </li>
+                    @foreach($report->questions as $question)
+                        <li>
+                            {{ $question->title }}
+                            <a href="{{ route('edu_report.question_destroy',$question->id) }}" onclick="return confirm('確定刪除？')"><small class="text-danger">x刪除</small></a>
+                        </li>
+                    @endforeach
+                </ul>
+                <br>
+                <strong>學校：</strong>
+                <form action="{{ route('edu_report.add_one_school') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="old_schools" value="{{ $old_schools }}">
+                    <input type="hidden" name="report_id" value="{{ $report->id }}">
+                    <select name="new_school">
+                        @foreach($school_select as $s)
+                            <?php
+                            $check_s = 1;
+                            foreach($schools as $school){
+                                if($s->school_name == $school->school_name){
+                                    $check_s = null;
+                                }
+                            }
+                            ?>
+                            @if($check_s)
+                                <option value="{{ $s->id }}">({{ $s->code_no }}) {{ $s->school_name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                    <button onclick="return confirm('確定增加？')">增加</button>
+                </form>
+                @foreach($schools as $school)
+                    <span>{{ $school->school_name }} <a href="{{ route('edu_report.school_destroy',[$report->id,$school->id]) }}" onclick="return confirm('確定刪除？')"><small class="text-danger">x刪除</small></a></span>,
+                @endforeach
+            </div>
+        </div>
+        <br>
+        <form action="{{ route('edu_report.destroy',$report->id) }}" method="post">
+            @csrf
+            @method('delete')
+            <button class="btn btn-danger btn-sm" onclick="return confirm('確定刪除？')">
+                刪除整份填報</button>
+        </form>
+    </div>
+@endsection

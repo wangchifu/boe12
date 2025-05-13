@@ -1,0 +1,136 @@
+.rwd-table {
+    background: #fff;
+    overflow: hidden;
+}
+
+.rwd-table tr:nth-of-type(2n){
+    background: #eee;
+}
+.rwd-table th,
+.rwd-table td {
+    margin: 0.5em 1em;
+}
+.rwd-table {
+    min-width: 100%;
+}
+
+.rwd-table th {
+    display: none;
+}
+
+.rwd-table td {
+    display: block;
+}
+
+.rwd-table td:before {
+    content: attr(data-th) "";
+    font-weight: bold;
+    width: 4em;
+    display: inline-block;
+}
+
+.rwd-table th, .rwd-table td {
+    text-align: left;
+}
+
+.rwd-table th, .rwd-table td:before {
+    color: #000000;
+    font-weight: bold;
+}
+
+@media (min-width: 800px) {
+    .rwd-table td:before {
+        display: none;
+    }
+    .rwd-table th, .rwd-table td {
+        display: table-cell;
+        padding: 0.25em 0.5em;
+    }
+    .rwd-table th:first-child,
+    .rwd-table td:first-child {
+        padding-left: 0;
+    }
+    .rwd-table th:last-child,
+    .rwd-table td:last-child {
+        padding-right: 0;
+    }
+    .rwd-table th,
+    .rwd-table td {
+        padding: 1em !important;
+    }
+}
+
+
+.ticker {
+    border-style: solid;
+    border-radius: 5px;
+    border-color: #c81c1c;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 50px;
+    margin-top: -80px;
+}
+
+.marquee_news {
+    position: absolute;
+    width: 90%;
+    height: 50px;
+    padding: 0 2%;
+    z-index:10;
+}
+
+.marquee_title {
+    width: 130px;
+    text-align: center;
+    background: #c81c1c;
+    position: relative;
+    z-index:20;
+}
+
+.marquee_title:after {
+    position: absolute;
+    content: "";
+    right: -35px;
+    border-left: 20px solid #c81c1c;
+    border-top: 28px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 15px solid transparent;
+    top: 0px;
+}
+
+.marquee_title h5 {
+    font-size: 18px;
+    margin: 8% 0;
+}
+
+.marquee_news marquee {
+    font-size: 18px;
+    margin-top: 12px;
+    margin-right: 5%;
+    background: #fff;
+    padding-top: 10px;
+    padding-bottom: 6px;
+    margin: 0px;
+}
+
+.marquee_news-content p {
+    margin-right: 41px;
+    display: inline;
+}
+
+ol {margin-left: 60px; padding-left: 0px;}
+
+ol.cht {list-style-type: cjk-ideographic;}
+
+li::before {
+  left: 41px;
+  color: black; /* Or a color you prefer */
+  background: white;
+  position: absolute;
+  display: block;
+}
+
+li {
+  padding-left: 5px;
+}
