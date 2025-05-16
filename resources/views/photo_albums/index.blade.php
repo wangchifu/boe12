@@ -8,46 +8,76 @@
         <div class="card">
             <div class="card-header text-center">
                 <h3 class="py-2">
-                    相簿管理 <a href="javascript:open_window('{{ route('photo_albums.create') }}','新視窗')" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增相簿</a>
-                    <a href="{{ route('photo_albums.guest') }}" target="_blank"><i class="fas fa-user-friends"></i> 訪客頁面</a>
+                    相簿管理
                 </h3>
             </div>
             <div class="card-body">
-                <div class="container">
-                    <div class="row">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-plus text-info"></i> 新增相簿(按一下)
+                          </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <form action="{{ route('photo_albums.store') }}" method="POST" id='photo_form'>
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">名稱*</label>
+                                    <input type="text" class="form-control" name="album_name" required placeholder="請輸入相簿名稱">  
+                                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                </div>                     
+                                <button class="btn btn-primary btn-sm" onclick="return confirm('確定儲存嗎？')">
+                                    <i class="fas fa-save"></i> 新增相簿
+                                </button>
+                                </form>
+                            </form>                    
+                          </div>
+                        </div>
+                    </div>          
+                </div>  
+                <br>                
+                <a href="{{ route('photo_albums.guest') }}" class="btn btn-outline-primary btn-sm" target="_blank"><i class="fas fa-user-friends"></i> 訪客頁面</a>
+                <hr>
+                <h4>列表</h4>
+                <table class="table table-striped" style="word-break:break-all;">
+                    <thead class="table-secondary">
+                    <tr>
+                        <th>相簿</th>
+                        <th class="col-3">動作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                         @foreach($photo_albums as $photo_album)
-                            <div class="col-3">
-                                <div class="card" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
-                                     <?php
-                                        $check = \App\Models\Photo::where('photo_album_id',$photo_album->id)->first();
-                                        if(!empty($check)){
-                                            $img = asset('storage/photo_albums/'.$photo_album->id.'/'.$check->photo_name);
-                                        }else{
-                                            $img = asset('images/no_image.svg');
-                                        }
-                                     ?>
-                                    <a href="{{ route('photo_albums.show',$photo_album->id) }}">
-                                        <img class="card-img-top" src="{{ $img }}" style="height:10rem;object-fit: cover;">
-                                    </a>
-                                    <div class="card-body" style="padding: 5px;">
-                                        <p class="card-text">{{ $photo_album->album_name }} ({{ count($photo_album->photos) }})
-                                            <a href="javascript:open_window('{{ route('photo_albums.edit',$photo_album->id) }}','新視窗')"><i class="fas fa-edit text-primary"></i></a>
-                                            <a href="{{ route('photo_albums.delete',$photo_album->id) }}" onclick="return confirm('確定刪除整本相簿？')"><i class="fas fa-times-circle text-danger"></i></a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                        <tr>
+                            <td>
+                                @php
+                                    $check = \App\Models\Photo::where('photo_album_id',$photo_album->id)->first();
+                                    if(!empty($check)){
+                                        $img = asset('storage/photo_albums/'.$photo_album->id.'/'.$check->photo_name);
+                                    }else{
+                                        $img = asset('images/no-image.png');
+                                    }
+                                @endphp
+                                <a href="{{ route('photo_albums.show',$photo_album->id) }}">
+                                    <img src="{{ $img }}" style="height:10rem;">
+                                </a><br>
+                                {{ $photo_album->album_name }} ({{ count($photo_album->photos) }})
+                            </td>
+                            <td>
+                                <h6>{{ $photo_album->album_name }}</h6>
+                                <a href="{{ route('photo_albums.show',$photo_album->id) }}" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-magnifying-glass"></i> 顯示</a>
+                                <a href="{{ route('photo_albums.edit',$photo_album->id) }}" class="btn btn-success btn-sm"><i class="fas fa-edit"></i> 編輯</a>
+                                <a href="{{ route('photo_albums.delete',$photo_album->id) }}" onclick="return confirm('確定刪除整本相簿？')" class="btn btn-danger btn-sm"><i class="fas fa-times-circle"></i> 刪除</a>                            
+                            </td>
+                        </tr>                                                                                                     
                         @endforeach
-                    </div>
-                </div>
+                    </tbody>
+                </table>                
             </div>
         </div>
     </div>
 </div>
 <br>
-<script>
-    function open_window(url, name) {
-        window.open(url, name, 'statusbar=no,scrollbars=yes,status=yes,resizable=yes,width=850,height=200');
-    }
-</script>
 @endsection

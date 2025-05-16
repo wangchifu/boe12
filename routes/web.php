@@ -26,27 +26,27 @@ use App\Http\Controllers\SimulationController;
 use App\Http\Controllers\WrenchController;
 
 //首頁
-Route::get('/', [HomeController::class,'index'])->name('index');////
-Route::get('index', [HomeController::class,'index'])->name('index');////
-Route::get('home', [HomeController::class,'index'])->name('home');////
+Route::get('/', [HomeController::class,'index'])->name('index');
+Route::get('index', [HomeController::class,'index'])->name('index');
+Route::get('home', [HomeController::class,'index'])->name('home');
 
 #登入
-Route::get('login', [LoginController::class,'showLoginForm'])->name('login');////
-Route::post('login', [MLoginController::class,'auth'])->name('auth');////
+Route::get('login', [LoginController::class,'showLoginForm'])->name('login');
+Route::post('login', [MLoginController::class,'auth'])->name('auth');
 
 //認證圖片
-Route::get('pic', [HomeController::class,'pic'])->name('pic');////
+Route::get('pic', [HomeController::class,'pic'])->name('pic');
 
 //gsuite登入
-Route::get('glogin', [GLoginController::class,'showLoginForm'])->name('glogin');////
-Route::post('glogin', [GLoginController::class,'auth'])->name('gauth');////
+Route::get('glogin', [GLoginController::class,'showLoginForm'])->name('glogin');
+Route::post('glogin', [GLoginController::class,'auth'])->name('gauth');
 
 //openid登入
 Route::get('sso', [OpenIdLoginController::class,'sso'])->name('sso');
 Route::get('auth/callback', [OpenIdLoginController::class,'callback'])->name('callback');
 
 #登出
-Route::post('logout', [LoginController::class,'logout'])->name('logout');////
+Route::post('logout', [LoginController::class,'logout'])->name('logout');
 
 Route::get('close', [HomeController::class,'close'])->name('close');
 Route::get('search', [HomeController::class,'search'])->name('search');
@@ -68,7 +68,7 @@ Route::get('photo_albums/{photo_album}/guest_show', [PhotoAlbumController::class
 //已註冊使用者可進入
 Route::group(['middleware' => 'auth'],function(){
     //結束模擬
-        Route::get('sims/impersonate_leave', [SimulationController::class,'impersonate_leave'])->name('sims.impersonate_leave');////
+        Route::get('sims/impersonate_leave', [SimulationController::class,'impersonate_leave'])->name('sims.impersonate_leave');
     
         //下載資料填報附檔
         Route::get('edu_report/{id}/{filename}/download', [EduReportController::class,'download'])->name('edu_report.download');
@@ -113,41 +113,41 @@ Route::group(['middleware' => 'admin'],function(){
     Route::patch('links/{link}', [LinksController::class,'update'])->name('links.update');
 
     //其他連結
-    Route::get('others', [OthersController::class,'index'])->name('others.index');////
-    Route::get('others/create', [OthersController::class,'create'])->name('others.create');////
-    Route::post('others', [OthersController::class,'store'])->name('others.store');////
-    Route::delete('others/{other}', [OthersController::class,'destroy'])->name('others.destroy');////
-    Route::get('others/{other}/edit', [OthersController::class,'edit'])->name('others.edit');////
-    Route::patch('others/{other}', [OthersController::class,'update'])->name('others.update');////
+    Route::get('others', [OthersController::class,'index'])->name('others.index');
+    Route::get('others/create', [OthersController::class,'create'])->name('others.create');
+    Route::post('others', [OthersController::class,'store'])->name('others.store');
+    Route::delete('others/{other}', [OthersController::class,'destroy'])->name('others.destroy');
+    Route::get('others/{other}/edit', [OthersController::class,'edit'])->name('others.edit');
+    Route::patch('others/{other}', [OthersController::class,'update'])->name('others.update');
 
 
     //帳號管理
-    Route::get('admin/user', [AdminsController::class,'user'])->name('admins.user');////
-    Route::get('admin/user/{user}/edit', [AdminsController::class,'user_edit'])->name('admins.user_edit');////
-    Route::patch('admin/user/{user}/update', [AdminsController::class,'user_update'])->name('admins.user_update');////
-    Route::delete('admin/user/{user}/destroy',[AdminsController::class,'user_destroy'])->name('admins.user_destroy');////
-    Route::get('admin/user/{user}/reback',[AdminsController::class,'user_reback'])->name('admins.user_reback');////
+    Route::get('admin/user', [AdminsController::class,'user'])->name('admins.user');
+    Route::get('admin/user/{user}/edit', [AdminsController::class,'user_edit'])->name('admins.user_edit');
+    Route::patch('admin/user/{user}/update', [AdminsController::class,'user_update'])->name('admins.user_update');
+    Route::delete('admin/user/{user}/destroy',[AdminsController::class,'user_destroy'])->name('admins.user_destroy');
+    Route::get('admin/user/{user}/reback',[AdminsController::class,'user_reback'])->name('admins.user_reback');
 
     //模擬登入
-    Route::get('sims/index' , [SimulationController::class,'index'])->name('sims.index');////
-    Route::get('sims/{group_id}/group' , [SimulationController::class,'group'])->name('sims.group');////
-    Route::get('sims/{user}/impersonate', [SimulationController::class,'impersonate'])->name('sims.impersonate');////
-    Route::match(['post','get'],'sims',[SimulationController::class,'search'])->name('sims.search');////
+    Route::get('sims/index' , [SimulationController::class,'index'])->name('sims.index');
+    Route::get('sims/{group_id}/group' , [SimulationController::class,'group'])->name('sims.group');
+    Route::get('sims/{user}/impersonate', [SimulationController::class,'impersonate'])->name('sims.impersonate');
+    Route::match(['post','get'],'sims',[SimulationController::class,'search'])->name('sims.search');
 
     //教育處介紹
-    Route::get('introduction/index', [IntroductionController::class,'index'])->name('introductions.index');////
-    Route::get('introduction/{type}/admin_organization', [IntroductionController::class,'admin_organization'])->name('introductions.admin_organization');////
-    Route::get('introduction/{type}/admin_people', [IntroductionController::class,'admin_people'])->name('introductions.admin_people');////
-    Route::get('introduction/{type}/admin_people2', [IntroductionController::class,'admin_people2'])->name('introductions.admin_people2');////
-    Route::get('introduction/{type}/admin_site', [IntroductionController::class,'admin_site'])->name('introductions.admin_site');////
-    Route::post('introduction/admin/store', [IntroductionController::class,'admin_store'])->name('introductions.admin_store');////
-    Route::post('introduction/admin/store2', [IntroductionController::class,'admin_store2'])->name('introductions.admin_store2');////
+    Route::get('introduction/index', [IntroductionController::class,'index'])->name('introductions.index');
+    Route::get('introduction/{type}/admin_organization', [IntroductionController::class,'admin_organization'])->name('introductions.admin_organization');
+    Route::get('introduction/{type}/admin_people', [IntroductionController::class,'admin_people'])->name('introductions.admin_people');
+    Route::get('introduction/{type}/admin_people2', [IntroductionController::class,'admin_people2'])->name('introductions.admin_people2');
+    Route::get('introduction/{type}/admin_site', [IntroductionController::class,'admin_site'])->name('introductions.admin_site');
+    Route::post('introduction/admin/store', [IntroductionController::class,'admin_store'])->name('introductions.admin_store');
+    Route::post('introduction/admin/store2', [IntroductionController::class,'admin_store2'])->name('introductions.admin_store2');
 
 
     //管理員回覆
-    Route::post('wrench/reply', [WrenchController::class,'reply'])->name('wrench.reply');////
-    Route::get('wrench/set_show/{wrench}', [WrenchController::class,'set_show'])->name('wrench.set_show');////
-    Route::get('wrench/destroy/{wrench}', [WrenchController::class,'destroy'])->name('wrench.destroy');////
+    Route::post('wrench/reply', [WrenchController::class,'reply'])->name('wrench.reply');
+    Route::get('wrench/set_show/{wrench}', [WrenchController::class,'set_show'])->name('wrench.set_show');
+    Route::get('wrench/destroy/{wrench}', [WrenchController::class,'destroy'])->name('wrench.destroy');
 
     //特殊處理
     Route::get('special',[HomeController::class,'special'])->name('special');
@@ -172,44 +172,45 @@ Route::group(['middleware' => 'all_admin'],function(){
     });
 
     //更改密碼
-    Route::get('edit_password',[HomeController::class,'edit_password'])->name('edit_password');////
-    Route::patch('update_password',[HomeController::class,'update_password'])->name('update_password');////
+    Route::get('edit_password',[HomeController::class,'edit_password'])->name('edit_password');
+    Route::patch('update_password',[HomeController::class,'update_password'])->name('update_password');
 
     //橫幅廣告
-    Route::get('title_image',[HomeController::class,'title_image'])->name('title_image');////
-    Route::post('title_image_add',[HomeController::class,'title_image_add'])->name('title_image_add');////
-    Route::get('title_image_del/{title_image}',[HomeController::class,'title_image_del'])->name('title_image_del');////
-    Route::get('title_image_edit/{title_image}',[HomeController::class,'title_image_edit'])->name('title_image_edit');////
-    Route::post('title_image_update/{title_image}',[HomeController::class,'title_image_update'])->name('title_image_update');////
+    Route::get('title_image',[HomeController::class,'title_image'])->name('title_image');
+    Route::post('title_image_add',[HomeController::class,'title_image_add'])->name('title_image_add');
+    Route::get('title_image_del/{title_image}',[HomeController::class,'title_image_del'])->name('title_image_del');
+    Route::get('title_image_edit/{title_image}',[HomeController::class,'title_image_edit'])->name('title_image_edit');
+    Route::post('title_image_update/{title_image}',[HomeController::class,'title_image_update'])->name('title_image_update');
 
     //選單連結
-    Route::get('menu',[HomeController::class,'menu'])->name('menu');////
-    Route::get('menu/create',[HomeController::class,'menu_create'])->name('menu_create');////
-    Route::post('menu_add',[HomeController::class,'menu_add'])->name('menu_add');////
-    Route::get('menu_edit/{menu}',[HomeController::class,'menu_edit'])->name('menu_edit');////
-    Route::post('menu_update/{menu}',[HomeController::class,'menu_update'])->name('menu_update');////
-    Route::get('menu_del/{menu}',[HomeController::class,'menu_del'])->name('menu_del');////
+    Route::get('menu/{id?}',[HomeController::class,'menu'])->name('menu');
+    Route::get('menu/create',[HomeController::class,'menu_create'])->name('menu_create');
+    Route::post('menu_add',[HomeController::class,'menu_add'])->name('menu_add');
+    Route::get('menu_edit/{menu}',[HomeController::class,'menu_edit'])->name('menu_edit');
+    Route::post('menu_update/{menu}',[HomeController::class,'menu_update'])->name('menu_update');
+    Route::get('menu_del/{menu}',[HomeController::class,'menu_del'])->name('menu_del');
 
     //內容管理
-    Route::get('contents', [ContentController::class,'index'])->name('contents.index');////
-    Route::get('contents/create', [ContentController::class,'create'])->name('contents.create');////
-    Route::post('contents/store', [ContentController::class,'store'])->name('contents.store');////
-    Route::post('contents/{content}', [ContentController::class,'destroy'])->name('contents.destroy');////
-    Route::get('contents/{content}/edit', [ContentController::class,'edit'])->name('contents.edit');////
-    Route::post('contents/{content}/update', [ContentController::class,'update'])->name('contents.update');////
+    Route::get('contents', [ContentController::class,'index'])->name('contents.index');
+    Route::get('contents/create', [ContentController::class,'create'])->name('contents.create');
+    Route::post('contents/upload_image', [ContentController::class,'upload_image'])->name('contents.upload_image');
+    Route::post('contents/store', [ContentController::class,'store'])->name('contents.store');
+    Route::post('contents/{content}', [ContentController::class,'destroy'])->name('contents.destroy');
+    Route::get('contents/{content}/edit', [ContentController::class,'edit'])->name('contents.edit');
+    Route::post('contents/{content}/update', [ContentController::class,'update'])->name('contents.update');
 
     //album
-    Route::get('photo_albums', [PhotoAlbumController::class,'index'])->name('photo_albums.index');////
-    Route::get('photo_albums/create', [PhotoAlbumController::class,'create'])->name('photo_albums.create');////
-    Route::post('photo_albums/store', [PhotoAlbumController::class,'store'])->name('photo_albums.store');////
-    Route::get('photo_albums/{photo_album}/show', [PhotoAlbumController::class,'show'])->name('photo_albums.show');////
+    Route::get('photo_albums', [PhotoAlbumController::class,'index'])->name('photo_albums.index');
+    Route::get('photo_albums/create', [PhotoAlbumController::class,'create'])->name('photo_albums.create');
+    Route::post('photo_albums/store', [PhotoAlbumController::class,'store'])->name('photo_albums.store');
+    Route::get('photo_albums/{photo_album}/show', [PhotoAlbumController::class,'show'])->name('photo_albums.show');
     Route::post('photo_albums/{photo_album}/store_photo', [PhotoAlbumController::class,'store_photo'])->name('photo_albums.store_photo');//有問題，無法上傳
-    Route::get('photo_albums/{photo_album}/delete', [PhotoAlbumController::class,'delete'])->name('photo_albums.delete');////
-    Route::get('photo_albums/{photo_album}/edit', [PhotoAlbumController::class,'edit'])->name('photo_albums.edit');////
-    Route::post('photo_albums/{photo_album}/update', [PhotoAlbumController::class,'update'])->name('photo_albums.update');////
+    Route::get('photo_albums/{photo_album}/delete', [PhotoAlbumController::class,'delete'])->name('photo_albums.delete');
+    Route::get('photo_albums/{photo_album}/edit', [PhotoAlbumController::class,'edit'])->name('photo_albums.edit');
+    Route::post('photo_albums/{photo_album}/update', [PhotoAlbumController::class,'update'])->name('photo_albums.update');
     //Route::get('photo_albums/{photo}/edit_photo', [PhotoAlbumController::class,'edit_photo'])->name('photo_albums.edit_photo');
     //Route::post('photo_albums/{photo}/update_photo', [PhotoAlbumController::class,'update_photo'])->name('photo_albums.update_photo');
-    Route::get('photo_albums/{photo}/delete_photo', [PhotoAlbumController::class,'delete_photo'])->name('photo_albums.delete_photo');////
+    Route::get('photo_albums/{photo}/delete_photo', [PhotoAlbumController::class,'delete_photo'])->name('photo_albums.delete_photo');
 });
 
 //admin1~admin9及有教育處科內一級管理A才可進入

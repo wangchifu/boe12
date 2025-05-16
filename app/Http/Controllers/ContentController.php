@@ -24,6 +24,16 @@ class ContentController extends Controller
         return view('contents.create');
     }
 
+    public function upload_image(Request $request){
+        if ($request->hasFile('file')) {
+            $filename = date('YmdHis') . '.' . $request->file('file')->getClientOriginalExtension();
+            $path = $request->file('file')->storeAs('photos',$filename,'public');
+            return response()->json(['location' => asset('storage/'.$path)]);        
+        }
+        
+        return response()->json(['error' => '上傳失敗'], 400);        
+    }
+    
     public function store(Request $request)
     {
         $request->validate([

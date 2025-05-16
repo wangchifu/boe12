@@ -12,37 +12,48 @@
                 </h3>
             </div>
             <div class="card-body">
-                <form action="{{ route('title_image_add') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                <div class="form-group">
-                    <label for="files[]"><strong class="text-danger">圖檔寬高比例約為1:2.8 (1400 x 500)</strong> [<a href="https://www.iloveimg.com/zh-tw/crop-image" target="_blank">線上裁切圖片</a>]</label>
-                    <input type="file" name="pic" class="form-control" required>
-                </div>
-                <!--
-                <div class="form-group">
-                    <label for="title"><strong class="text-dark">標題</strong></label>
-                    <input type="text" name="title" id="title" class="form-control" placeholder="非必填">
-                </div>
-                <div class="form-group">
-                    <label for="content"><strong class="text-dark">說明</strong></label>
-                    <input type="text" name="content" id="content" class="form-control" placeholder="非必填">
-                </div>
-                    -->
-                <div class="form-group">
-                    <label for="link"><strong class="text-dark">連結</strong></label>
-                    <input type="text" name="link" id="link" class="form-control" placeholder="非必填">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('確定儲存嗎？')">
-                        <i class="fas fa-save"></i> 新增圖片
-                    </button>
-                </div>
-                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                </form>
-
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-plus text-info"></i> 新增橫幅廣告(按一下)
+                          </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <form action="{{ route('title_image_add') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                            <div class="form-group">
+                                <label for="files[]"><strong class="text-danger">圖檔寬高比例約為1:2.8 (1400 x 500)</strong> [<a href="https://www.iloveimg.com/zh-tw/crop-image" target="_blank">線上裁切圖片</a>]</label>
+                                <input type="file" name="pic" class="form-control" required>
+                            </div>
+                            <!--
+                            <div class="form-group">
+                                <label for="title"><strong class="text-dark">標題</strong></label>
+                                <input type="text" name="title" id="title" class="form-control" placeholder="非必填">
+                            </div>
+                            <div class="form-group">
+                                <label for="content"><strong class="text-dark">說明</strong></label>
+                                <input type="text" name="content" id="content" class="form-control" placeholder="非必填">
+                            </div>
+                                -->
+                            <div class="form-group">
+                                <label for="link"><strong class="text-dark">連結</strong></label>
+                                <input type="text" name="link" id="link" class="form-control" placeholder="非必填">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('確定儲存嗎？')">
+                                    <i class="fas fa-save"></i> 新增圖片
+                                </button>
+                            </div>
+                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                            </form>                                                         
+                          </div>
+                        </div>
+                    </div>          
+                </div>                 
             </div>
-        </div>
-        <br>
+            <br>
         <table class="table table-striped">
             <thead class="thead-light">
             <tr>
@@ -73,6 +84,7 @@
             @endforeach
             </tbody>
         </table>
+        </div>        
     </div>
 </div>
 <br>

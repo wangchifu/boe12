@@ -390,22 +390,43 @@ class HomeController extends Controller
         return redirect()->route('title_image');
     }
 
-    public function menu()
+    public function menu($id=null)
     {
-        $folder_menus = Menu::where('type', 1)->orderBy('path')->get();
-        $root_menus = Menu::where('belong', '0')->orderBy('order_by')->get();
-        $folder_name[0] = "最上層根目錄";
-        foreach ($folder_menus as $folder_menu) {
-            $folder_name[$folder_menu->id] = $folder_menu->name;
+        $id=(empty($id))?0:$id;
+        $menus = Menu::where('belong', $id)->orderBy('order_by')->get();
+        $all_menus = Menu::all();
+        foreach($all_menus as $all_menu){
+            $menu2name[$all_menu->id] = $all_menu->name;
         }
-        $target_array = ['_self' => '本視窗(本系統內的連結)', '_blank' => '開新視窗(其他系統內的連結)'];
+        $path0 = "<nav aria-label='breadcrumb'><ol class='breadcrumb'><li class='breadcrumb-item'><a href='".route('menu')."'>最上層</a></li>";
+        $path1 = "";
+        $path9 = "</ol></nav>";
+        if($id != 0){                    
+            $this_menu = Menu::find($id);
+            $this_menu_name = $this_menu->name;
+            $this_menu_id = $this_menu->id;
+            $this_menu_type = $this_menu->type;
+            //取路徑的 id            
+            $path_array = array_filter(explode(">",$this_menu->path.$id), fn($value) => $value !== "" && $value !== null);
+            foreach($path_array as $k=>$v){
+                if($v != 0){
+                    $path1 = $path1."<li class='breadcrumb-item' aria-current='page'><a href='".route('menu',['id'=>$v])."'>".$menu2name[$v]."</a></li>";
+                }                
+            }            
+        }else{
+            $this_menu_name = "最上層";
+            $this_menu_id = 0;
+            $this_menu_type = 1;
+        }
+        
+        $path = $path0.$path1.$path9;
         $data = [
-            'folder_menus' => $folder_menus,
-            'folder_name' => $folder_name,
-            'root_menus' => $root_menus,
-            'target_array' => $target_array,
+            'menus' => $menus,
+            'this_menu_name'=>$this_menu_name,
+            'this_menu_id'=>$this_menu_id,
+            'this_menu_type'=>$this_menu_type,
+            'path'=>$path,
         ];
-
         return view('menu', $data);
     }
 
@@ -442,14 +463,14 @@ class HomeController extends Controller
 
         $att['name'] = Purifier::clean($att['name'], array('AutoFormat.AutoParagraph' => false));
         $att['link'] = Purifier::clean($att['link'], array('AutoFormat.AutoParagraph' => false));
-
+        
         $menu = Menu::create($att);
 
         //log
         $event = "管理者 " . auth()->user()->name . "(" . auth()->user()->username . ") 新增了選單連結 id：" . $menu->id . " 名稱：" . $menu->name;
         logging('5', $event, get_ip());
 
-        return redirect()->route('menu');
+        return redirect()->back();
     }
 
     public function menu_del(Menu $menu)
@@ -464,23 +485,41 @@ class HomeController extends Controller
         $event = "管理者 " . auth()->user()->name . "(" . auth()->user()->username . ") 刪除了選單連結 id：" . $menu->id . " 名稱：" . $menu->name;
         logging('5', $event, get_ip());
 
-        return redirect()->route('menu');
+        return redirect()->back();
     }
 
     public function menu_edit(Menu $menu)
     {
-        $folder_menus = Menu::where('type', 1)->orderBy('path')->get();
-        $folder_name[0] = "最上層根目錄";
-        foreach ($folder_menus as $folder_menu) {
-            $folder_name[$folder_menu->id] = $folder_menu->name;
+        $all_menus = Menu::all();
+        foreach($all_menus as $all_menu){
+            $menu2name[$all_menu->id] = $all_menu->name;
         }
-        $target_array = ['_self' => '本視窗(本系統內的連結)', '_blank' => '開新視窗(其他系統內的連結)'];
+        $path0 = "<nav aria-label='breadcrumb'><ol class='breadcrumb'><li class='breadcrumb-item'><a href='".route('menu')."'>最上層</a></li>";
+        $path1 = "";
+        $path9 = "</ol></nav>";        
+        if($menu->belong != 0){                    
+            $this_menu = Menu::find($menu->belong);
+            $this_menu_name = $this_menu->name;
+            $this_menu_id = $this_menu->id;
+            //取路徑的 id            
+            $path_array = array_filter(explode(">",$this_menu->path.$menu->belong), fn($value) => $value !== "" && $value !== null);
+            foreach($path_array as $k=>$v){
+                if($v != 0){
+                    $path1 = $path1."<li class='breadcrumb-item' aria-current='page'><a href='".route('menu',['id'=>$v])."'>".$menu2name[$v]."</a></li>";
+                }                
+            }            
+        }else{
+            $this_menu_name = "最上層";
+            $this_menu_id = 0;
+        }
+        
+        $path = $path0.$path1.$path9;
         $data = [
             'menu' => $menu,
-            'folder_menus' => $folder_menus,
-            'folder_name' => $folder_name,
-            'target_array' => $target_array,
-        ];
+            'this_menu_name' => $this_menu_name,
+            'this_menu_id' => $this_menu_id,
+            'path' => $path,
+        ];        
         return view('menu_edit', $data);
     }
 

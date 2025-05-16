@@ -12,78 +12,56 @@
                 </h3>
             </div>
             <div class="card-body">
-                <form action="{{ route('menu_update', $menu->id) }}" method="POST">
+                <form action="{{ route('menu_update',$menu->id) }}" method="POST" id="menu_form">
                     @csrf
-                <div class="form-group">
-                    <label for="belong"><strong class="text-danger">所屬目錄</strong></label>
-                    <select name="belong" class="form-control">
-                        <?php $select0 = ($menu->belong==0)?"selected":null; ?>
-                        <option value="0" {{ $select0 }}>最上層根目錄</option>
-                        @foreach($folder_menus as $folder_menu)
-                            <?php
-                            $select = ($menu->belong==$folder_menu->id)?"selected":null;
-                            ?>
-                            <?php
-                            $n = explode('>',$folder_menu->path);
-                            $name = "";
-                            foreach($n as $k=>$v){
-                                if(isset($folder_name[$v])){
-                                    $name .= $folder_name[$v]."/";
-                                }
-                            }
-                            $name .= $folder_name[$folder_menu->id]."/";
-                            ?>
-                            <option value="{{ $folder_menu->id }}" {{ $select }}>{{ $name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="type"><strong class="text-danger">類型</strong></label>
-                    <?php
-                    if($menu->type==1){
-                        $radio1 = "checked";$radio2 = "";
-                    }
-                    if($menu->type==2){
-                        $radio1 = "";$radio2 = "checked";
-                    }
-                    ?>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="type" value="1" {{ $radio1 }}>可下拉目錄
-                        </label>
+                    <div class="mb-3">
+                        <label for="this_menu_name" class="form-label">所屬目錄*</label>
+                        <input type="text" class="form-control" style="background-color: #b7b9bb;" id="this_menu_name" value="{{ $this_menu_name }}" readonly>
+                        <input type="hidden" name="belong" value="{{ $this_menu_id }}">
+                    </div>            
+                    <div class="mb-3">
+                        <label for="type" class="form-label">類型*</label>
+                        @php
+                          $select_type1 = ($menu->type==1)?"selected"  :null;
+                          $select_type2 = ($menu->type==2)?"selected"  :null;
+                        @endphp
+                        <select class="form-select form-select mb-3" aria-label=".form-select example" id="type" name="type">                    
+                            <option value="1" {{ $select_type1 }}>可下拉目錄</option>
+                            <option value="2" {{ $select_type2 }}>連結</option>                    
+                        </select>
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="type" value="2" {{ $radio2 }}>連結
-                        </label>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">名稱*</label>
+                        <input type="text" class="form-control" name="name" value="{{ $menu->name }}" placeholder="必填" required>                
+                    </div> 
+                    <div class="mb-3">
+                        <label for="link" class="form-label">連結</label>
+                        <input type="text" class="form-control" name="link" value="{{ $menu->link }}" placeholder="下拉目錄非必填">                
+                    </div> 
+                    <div class="mb-3">
+                        <label for="order_by" class="form-label">排序</label>
+                        <input type="number" class="form-control" name="order_by" value="{{ $menu->order_by }}" placeholder="非必填">                
+                    </div> 
+                    <div class="mb-3">
+                        <label for="target" class="form-label">開啟方式*</label>
+                        <select class="form-select form-select mb-3" aria-label=".form-select example" id="target" name="target">                    
+                            @php
+                                $select_target0 = ($menu->target==null)?"selected"  :null;
+                                $select_target1 = ($menu->target=="_blank")?"selected"  :null;
+                                $select_target2 = ($menu->target=="_self")?"selected"  :null;
+                            @endphp
+                            <option value="" {{ $select_target0 }}>可不選</option>
+                            <option value="_blank" {{ $select_target1 }}>新視窗</option>
+                            <option value="_self" {{ $select_target2 }}>本視窗</option>                    
+                        </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="name"><strong class="text-danger">名稱</strong></label>
-                    <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $menu->name) }}" placeholder="必填" required>
-                </div>
-                <div class="form-group">
-                    <label for="link"><strong class="text-dark">連結</strong></label>
-                    <input type="text" name="link" id="link" class="form-control" value="{{ old('link', $menu->link) }}" placeholder="非必填">
-                </div>
-                <div class="form-group">
-                    <label for="order_by"><strong class="text-dark">排序</strong></label>
-                    <input type="number" name="order_by" id="order_by" class="form-control" value="{{ old('order_by', $menu->order_by) }}" placeholder="非必填">
-                </div>
-                <div class="form-group">
-                    <label for="target"><strong class="text-dark">開啟方式</strong></label>
-                    <select name="target" id="target" class="form-control" placeholder="目錄不用選">
-                        <option value="">目錄不用選</option>
-                        @foreach ($target_array as $key => $value)
-                            <option value="{{ $key }}" {{ $key == old('target', $menu->target) ? 'selected' : '' }}>{{ $value }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <a href="#" class="btn btn-secondary btn-sm" onclick="history.back()">返回</a>
-                <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('確定儲存嗎？')">
-                    <i class="fas fa-save"></i> 儲存選單
-                </button>
-                </form>
+                    <a class="btn btn-secondary btn-sm" onclick="window.history.back();">
+                        <i class="fas fa-backward"></i> 返回
+                    </a>
+                    <button class="btn btn-primary btn-sm" onclick="return confirm('確定儲存嗎？')">
+                        <i class="fas fa-save"></i> 儲存選單
+                    </button>
+                    </form>
             </div>
         </div>
         <br>
