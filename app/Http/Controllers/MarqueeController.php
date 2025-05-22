@@ -15,7 +15,7 @@ class MarqueeController extends Controller
     public function index()
     {
         $marquees = Marquee::orderBy('stop_date','DESC')
-            ->get();
+            ->paginate('20');
         $data = [
             'marquees'=>$marquees,
         ];

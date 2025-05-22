@@ -100,7 +100,7 @@
                     </table>
                 </div>
                 <div class="card-footer d-flex flex-row justify-content-center">
-                    <div class="pt-3">{{ $users->links() }}</div>
+                    <div class="pt-3">{{ $users->links('layouts.simple-pagination') }}</div>
                 </div>
             </div>
         </div>

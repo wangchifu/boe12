@@ -1,8 +1,8 @@
 <?php
 //如果關閉網站
-if($_SERVER['REQUEST_URI'] != "/close" and $_SERVER['REQUEST_URI'] != "/login" and $_SERVER['REQUEST_URI'] != "/pic"){
-    close_system();
-};
+//if($_SERVER['REQUEST_URI'] != "/close" and $_SERVER['REQUEST_URI'] != "/login" and $_SERVER['REQUEST_URI'] != "/pic"){
+//    close_system();
+//};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminsController;
 use App\Http\Controllers\ContentController;

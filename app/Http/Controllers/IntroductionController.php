@@ -244,9 +244,9 @@ class IntroductionController extends Controller
         if($upload->type==1 or $upload->type==2){
             $old_name = "";
             $new_name = "";
-            $path_array = explode('&',$request->input('path'));
+            $path_array = explode('&',$request->input('path'));            
             foreach($path_array as $v){
-                if($v != 0){
+                if(!empty($v)){
                     $check = Upload::where('id',$v)->first();
                     if($v==$request->input('id')){
                         $old_name .= "/".$check->name;

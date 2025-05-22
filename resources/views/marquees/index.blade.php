@@ -58,6 +58,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $marquees->links('layouts.simple-pagination') }}
                 </div>
             </div>
         </div>

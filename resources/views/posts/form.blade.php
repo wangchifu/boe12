@@ -1,7 +1,7 @@
 @include('layouts.errors')
 <div class="form-group">
     <label for="category_id"><strong class="text-danger">公告類別*</strong></label>
-    <select name="category_id" id="category_id" class="form-control" onchange="show_type(this)">
+    <select name="category_id" id="category_id" class="form-control" onchange="show_type(this)" required>
         <option value="" disabled selected>選擇類別</option>
         @foreach($categories as $key => $value)
             <option value="{{ $key }}">{{ $value }}</option>
@@ -10,7 +10,7 @@
 </div>
 <div class="form-group">
     <label for="title"><strong class="text-danger">公告主旨*</strong></label>
-    <input type="text" name="title" id="title" class="form-control" placeholder="請輸入標題" required>
+    <input type="text" name="title" id="title" class="form-control" placeholder="請輸入標題" value="{{ old('title', $post->title ?? '') }}" required>
 </div>
 <div class="form-group">
     <label for="telephone">公務電話</label>
@@ -19,7 +19,7 @@
 <div class="form-group">
     <label for="content"><strong class="text-danger">公告內容*</strong></label>
     <label for="content"><strong  class="text-danger">文字縮排請不要自行鍵入空格，請用編輯器的功能<span class="tox-icon tox-tbtn__icon-wrap"><svg width="24" height="24"><path d="M7 5h12c.6 0 1 .4 1 1s-.4 1-1 1H7a1 1 0 1 1 0-2zm5 4h7c.6 0 1 .4 1 1s-.4 1-1 1h-7a1 1 0 0 1 0-2zm0 4h7c.6 0 1 .4 1 1s-.4 1-1 1h-7a1 1 0 0 1 0-2zm-5 4h12a1 1 0 0 1 0 2H7a1 1 0 0 1 0-2zm-2.6-3.8L6.2 12l-1.8-1.2a1 1 0 0 1 1.2-1.6l3 2a1 1 0 0 1 0 1.6l-3 2a1 1 0 1 1-1.2-1.6z" fill-rule="evenodd"></path></svg></span></strong></label>
-    <textarea name="content" id="content" class="form-control" rows="10" placeholder="請輸入內容" required></textarea>
+    <textarea name="content" id="content" class="form-control" rows="10" placeholder="請輸入內容" required>{{ old('content', $post->content ?? '') }}</textarea>
 
     <script src="{{ asset('tinymce5/tinymce.min.js') }}" referrerpolicy="origin"></script>
 <script>
@@ -30,7 +30,7 @@
       'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
       'table emoticons template paste help code codesample'
     ],
-    toolbar: 'code undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
       'bullist numlist outdent indent | link | ' +
       'forecolor backcolor emoticons | preview fullscreen',
     menu: {
@@ -40,35 +40,10 @@
     language: 'zh_TW',
 });
 </script>
-<!--
-    <script>
-
-        tinymce.init({
-	selector: 'textarea',  // change this value according to your HTML
-        language: 'zh_TW'  // site absolute URL
-	});
-
-
-    </script>
--->
-    <!--
-    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-    <script>
-        CKEDITOR.replace('content',{
-            toolbar: [
-                { name: 'document', items: [ 'Bold', 'Italic','TextColor','-','Outdent', 'Indent', '-', 'Undo', 'Redo' ] },
-            ],
-            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images',
-            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files',
-        });
-    </script>
-    -->
 </div>
 <div class="form-group">
     <label for="url">相關網址( 請記得加上http://或https://)</label>
-    <input type="text" name="url" id="url" class="form-control">
+    <input type="text" name="url" value="{{ old('url', $post->url ?? '') }}" id="url" class="form-control">
 </div>
 <div class="form-group">
     <label for="files[]">附加檔案( 單檔不大於10MB，請以ODF格式附加 ) <small class="text-secondary">csv,txt,zip,jpg,jpeg,gif,png,pdf,odt,ods</small></label>

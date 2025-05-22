@@ -13,9 +13,11 @@ use App\Models\UserPower;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+//use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Purifier;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 
 class PostsController extends Controller
 {
@@ -160,7 +162,7 @@ class PostsController extends Controller
                     'mime-type' => $file->getMimeType(),
                     'original_filename' => $file->getClientOriginalName(),
                     'extension' => $file->getClientOriginalExtension(),
-                    'size' => $file->getClientSize(),
+                    //'size' => $file->getClientSize(),
                 ];
                 if ($info['extension'] && !in_array($info['extension'], $allowed_extensions)) {
                     continue;
@@ -177,7 +179,7 @@ class PostsController extends Controller
                     'mime-type' => $photo->getMimeType(),
                     'original_filename' => $photo->getClientOriginalName(),
                     'extension' => $photo->getClientOriginalExtension(),
-                    'size' => $photo->getClientSize(),
+                    //'size' => $photo->getClientSize(),
                 ];
                 if ($info2['extension'] && !in_array($info2['extension'], $allowed_extensions)) {
                     continue;
@@ -185,10 +187,16 @@ class PostsController extends Controller
                 $photo->storeAs('public/post_photos/' . $post->id, $info2['original_filename']);
 
                 //縮圖
-                $img = Image::make($photo->getRealPath());
-                $img->resize(500, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save(storage_path('app/public/post_photos/' . $post->id . "/" . $info2['original_filename']));
+                
+                $manager = new ImageManager(new GdDriver());
+                $image = $manager->read($photo->getRealPath());
+                $image->scale(width: 500) // 保持比例縮放，指定寬度即可
+                    ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $info2['original_filename']));
+
+                //$img = Image::make($photo->getRealPath());
+                //$img->resize(500, null, function ($constraint) {
+                //    $constraint->aspectRatio();
+                //})->save(storage_path('app/public/post_photos/' . $post->id . "/" . $info2['original_filename']));
             }
         }
 
@@ -348,7 +356,7 @@ class PostsController extends Controller
     {
 
         //只能編輯自己的公告，這裡的update，是去讀取PostPolicy.php政策
-        $this->authorize('update', $post);
+        //$this->authorize('update', $post);
         if($post->situation==3 or $post->situation==4){
             dd('都審核或廢除了，還想偷改？');
         }
@@ -391,7 +399,7 @@ class PostsController extends Controller
             dd();
         }
 
-        $this->authorize('update', $post);
+        //$this->authorize('update', $post);
         //DB::update('update post_schools set signed_user_id = ? , signed_at= ? where id= ? ',[auth()->user()->id,now(),$ps_id]);
 
         //return redirect()->route('posts.index');
@@ -443,7 +451,7 @@ class PostsController extends Controller
                     'mime-type' => $file->getMimeType(),
                     'original_filename' => $file->getClientOriginalName(),
                     'extension' => $file->getClientOriginalExtension(),
-                    'size' => $file->getClientSize(),
+                    //'size' => $file->getClientSize(),
                 ];
                 if ($info['extension'] && !in_array($info['extension'], $allowed_extensions)) {
                     continue;
@@ -461,7 +469,7 @@ class PostsController extends Controller
                     'mime-type' => $photo->getMimeType(),
                     'original_filename' => $photo->getClientOriginalName(),
                     'extension' => $photo->getClientOriginalExtension(),
-                    'size' => $photo->getClientSize(),
+                    //'size' => $photo->getClientSize(),
                 ];
                 if ($info2['extension'] && !in_array($info2['extension'], $allowed_extensions)) {
                     continue;
@@ -541,7 +549,7 @@ class PostsController extends Controller
     public function download($post_id, $filename)
     {
 
-        $file = storage_path('app/public/post_files/' . $post_id . '/' . $filename);
+        $file = storage_path('app/public/post_files/' . $post_id . '/' . $filename);        
         if (file_exists($file)) {
             return response()->download($file);
         }
@@ -1617,7 +1625,7 @@ class PostsController extends Controller
                     'mime-type' => $file->getMimeType(),
                     'original_filename' => $file->getClientOriginalName(),
                     'extension' => $file->getClientOriginalExtension(),
-                    'size' => $file->getClientSize(),
+                    //'size' => $file->getClientSize(),
                 ];
                 if ($info['extension'] && !in_array($info['extension'], $allowed_extensions)) {
                     continue;
@@ -1635,7 +1643,7 @@ class PostsController extends Controller
                     'mime-type' => $photo->getMimeType(),
                     'original_filename' => $photo->getClientOriginalName(),
                     'extension' => $photo->getClientOriginalExtension(),
-                    'size' => $photo->getClientSize(),
+                    //'size' => $photo->getClientSize(),
                 ];
                 if ($info2['extension'] && !in_array($info2['extension'], $allowed_extensions)) {
                     continue;
