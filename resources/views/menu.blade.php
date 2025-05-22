@@ -68,6 +68,7 @@
                 </div>        
                 @endif
                 <br>    
+                <p class="text-danger">有更動要登出登入才會有改變</p>
                 <div class="card mb-4">
                     <div class="card-header">此層「{{ $this_menu_name }}」下的連結</div>
                     <div class="card-body">

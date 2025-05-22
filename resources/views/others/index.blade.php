@@ -14,6 +14,7 @@
                 </div>
                 <div class="card-body">
                     <a href="{{ route('others.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增連結</a>
+                    <p class="text-danger">有更動要登出登入才會有改變</p>
                     <table class="table table-striped" style="word-break:break-all;">
                         <thead class="thead-light">
                         <tr>

@@ -104,7 +104,8 @@ class PhotoAlbumController extends Controller
                     'size' => $file->getSize(),
                 ];
                 //$filename = substr(hash('sha256',$info['original_filename']),0,10).".".$info['extension'];                
-                $filename = date('YmdHis').".".$info['extension'];                
+                $r = substr(hash('sha256',$info['original_filename']),0,4);
+                $filename = date('YmdHis').$r.".".$info['extension'];                
                 if(!in_array($info['extension'],$arrExt)){
                     return back()->withErrors(['error' => ['上傳失敗，有非相片檔案！']]);
                 }else{

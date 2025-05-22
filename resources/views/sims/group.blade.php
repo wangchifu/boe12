@@ -46,7 +46,7 @@
                         </li>
                     </ul>
                     @include('sims.form')
-                    {{ $users->links() }}
+                    {{ $users->links('layouts.simple-pagination') }}
                 </div>
             </div>
         </div>

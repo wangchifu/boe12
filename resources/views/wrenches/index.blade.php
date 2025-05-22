@@ -107,7 +107,7 @@
                             <br>
                         @endforeach
                         <div style="text-align:right">
-                            {{ $wrenches->links() }}
+                            {{ $wrenches->links('layouts.simple-pagination') }}
                         </div>
                     </div>
                 </div>

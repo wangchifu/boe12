@@ -1,8 +1,8 @@
 <?php
 //如果關閉網站
-//if($_SERVER['REQUEST_URI'] != "/close" and $_SERVER['REQUEST_URI'] != "/login" and $_SERVER['REQUEST_URI'] != "/pic"){
-//    close_system();
-//};
+if($_SERVER['REQUEST_URI'] != "/close" and $_SERVER['REQUEST_URI'] != "/login" and $_SERVER['REQUEST_URI'] != "/pic"){
+    close_system();
+};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminsController;
 use App\Http\Controllers\ContentController;
@@ -167,9 +167,9 @@ Route::group(['middleware' => 'all_admin'],function(){
     //上傳圖片
     //Route::get('/laravel-filemanager', '\UniSharp\LaravelFilemanager\Controllers\LfmController::class,'show');
     //Route::post('/laravel-filemanager/upload', '\UniSharp\LaravelFilemanager\Controllers\UploadController::class,'upload');
-    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-        \UniSharp\LaravelFilemanager\Lfm::routes();
-    });
+    //Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    //    \UniSharp\LaravelFilemanager\Lfm::routes();
+    //});
 
     //更改密碼
     Route::get('edit_password',[HomeController::class,'edit_password'])->name('edit_password');

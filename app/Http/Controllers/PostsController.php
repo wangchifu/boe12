@@ -1418,7 +1418,7 @@ class PostsController extends Controller
         return view('schools.search_by_section', $data);
     }
 
-    //簽收公告
+    //簽收公告 
     public function signed(Request $request, $ps_id)
     {
         //$page = $request->input('page');

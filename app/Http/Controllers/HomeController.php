@@ -46,7 +46,7 @@ class HomeController extends Controller
             UserRead::create($att);
         }
         
-        $user_read_ids = \App\UserRead::where('user_id',auth()->user()->id)->pluck('id')->toArray();    
+        $user_read_ids = \App\Models\UserRead::where('user_id',auth()->user()->id)->pluck('id')->toArray();    
         session(['user_read_ids' => $user_read_ids]);
         session(['user_all_read' => 1]);
         return redirect()->back();

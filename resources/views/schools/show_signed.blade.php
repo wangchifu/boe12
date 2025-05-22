@@ -142,7 +142,7 @@
                                         </td>
                                         <td nowrap data-th="簽收">
                                         @if($post_school->signed_at==null and $post_school->post->situation != 4)
-                                        <form action="{{ route('posts.signed', ['id' => $post_school->id]) }}" method="POST" id="sign_check_form{{ $post_school->post_id }}">
+                                        <form action="{{ route('posts.signed', ['ps_id' => $post_school->id]) }}" method="POST" id="sign_check_form{{ $post_school->post_id }}">
                                             @method('PATCH')
                                             @csrf                                       
                                             <input type="hidden" value="{{ $user_power -> power_type }}"

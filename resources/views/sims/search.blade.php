@@ -21,7 +21,7 @@
                 </div>
                 <div class="card-body">
                     @include('sims.form')
-                    {{ $users->appends(['want' => $want])->links() }}
+                    {{ $users->appends(['want' => $want])->links('layouts.simple-pagination') }}
                 </div>
             </div>
         </div>
