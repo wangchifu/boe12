@@ -83,7 +83,7 @@
                     <div class="text-right" id="show_pull">
                         <span class="btn btn-secondary btn-sm" onclick="if(confirm('確定嗎？會覆蓋之前的暫存檔喔！')){go_save_temp();}else{return false;}"><i class="fas fa-save"></i> 暫存</span>
                         <?php
-                            $check_report_temp = \App\ReportTemp::where('code',auth()->user()->code)->where('report_id',$report_school->report_id)->first();
+                            $check_report_temp = \App\Models\ReportTemp::where('code',auth()->user()->code)->where('report_id',$report_school->report_id)->first();
                         ?>
                         @if(!empty($check_report_temp))
                             <span class="btn btn-outline-secondary btn-sm" onclick="if(confirm('確定嗎？會覆蓋目前填入的資料喔！')){pull_temp();}else{return false;}"><i class="fas fa-download"></i> 拉下暫存</span>

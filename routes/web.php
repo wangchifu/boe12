@@ -486,12 +486,12 @@ Route::get('posts/{post}/{ps_id?}', [PostsController::class,'show'])->name('post
 Route::get('posts_print/{post}', [PostsController::class,'print'])->name('posts.print');
 
 //下載檔案
-Route::get('download/{id}/{filename}', [PostsController::class,'download'])->name('posts.download');
+Route::get('download/{filename}/{id}', [PostsController::class,'download'])->name('posts.download');
 
 //顯示上傳的圖片
 Route::get('img/{file_path}', [PostsController::class,'getImg'])->name('posts.img');
 //下載圖片
-Route::get('downloadimage/{id}/{filename}', [PostsController::class,'downloadimage'])->name('posts.downloadimage');
+Route::get('downloadimage/{filename}/{id}/', [PostsController::class,'downloadimage'])->name('posts.downloadimage');
 
 //各科室介紹
 Route::get('introduction/{type}/show/{section_id}', [IntroductionController::class,'show'])->name('introductions.show');

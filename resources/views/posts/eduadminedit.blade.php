@@ -34,7 +34,7 @@
                             現有附件：<br>
                             @if(!empty($files))
                                 @foreach($files as $v)
-                                    <a href="{{ route('posts.del_att',['id'=>$post->id,'filename'=>$v]) }}" onclick="return window.confirm('確定刪除？');">X刪除</a>
+                                    <a href="{{ route('posts.del_att',['id'=>$post->id,'filename'=>$v]) }}" onclick="return window.confirm('確定刪除？');" class="btn btn-danger btn-sm">X刪除</a>
                                     <a href="{{ route('posts.download',['filename'=>$v,'id'=>$post->id]) }}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-download">{{ $v }}</i>
                                     </a>
@@ -45,7 +45,7 @@
                             現有圖片：<br>
                             @if(!empty($images))
                                 @foreach($images as $v)
-                                    <a href="{{ route('posts.del_img',['id'=>$post->id,'filename'=>$v]) }}" onclick="return window.confirm('確定刪除？');">X刪除</a>
+                                    <a href="{{ route('posts.del_img',['id'=>$post->id,'filename'=>$v]) }}" onclick="return window.confirm('確定刪除？');" class="btn btn-danger btn-sm">X刪除</a>
                                     <?php
                                          $image_path = $images_path.'/'.$v;
                                          $file_path = str_replace('/','&',$image_path);

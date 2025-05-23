@@ -105,7 +105,7 @@ class EduReportController extends Controller
                     'mime-type' => $file->getMimeType(),
                     'original_filename' => $file->getClientOriginalName(),
                     'extension' => $file->getClientOriginalExtension(),
-                    'size' => $file->getClientSize(),
+                    //'size' => $file->getClientSize(),
                 ];
                 if ( $info['extension'] && !in_array($info['extension'],$allowed_extensions)) {
                     continue;
@@ -381,7 +381,7 @@ class EduReportController extends Controller
                         'mime-type' => $file->getMimeType(),
                         'original_filename' => $file->getClientOriginalName(),
                         'extension' => $file->getClientOriginalExtension(),
-                        'size' => $file->getClientSize(),
+                        //'size' => $file->getClientSize(),
                     ];
                     if ( $info['extension'] && !in_array($info['extension'],$allowed_extensions)) {
                       continue;

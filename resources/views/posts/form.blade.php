@@ -2,9 +2,12 @@
 <div class="form-group">
     <label for="category_id"><strong class="text-danger">公告類別*</strong></label>
     <select name="category_id" id="category_id" class="form-control" onchange="show_type(this)" required>
-        <option value="" disabled selected>選擇類別</option>
+        <option value="" disabled {{ old('category_id', $post->category_id ?? '') === null ? 'selected' : '' }}>選擇類別</option>
         @foreach($categories as $key => $value)
-            <option value="{{ $key }}">{{ $value }}</option>
+            <option value="{{ $key }}"
+                {{ old('category_id', $post->category_id ?? '') == $key ? 'selected' : '' }}>
+                {{ $value }}
+            </option>
         @endforeach
     </select>
 </div>
