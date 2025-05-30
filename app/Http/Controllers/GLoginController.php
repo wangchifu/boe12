@@ -222,45 +222,46 @@ class GLoginController extends Controller
                 }
             }
 
-            if (Auth::attempt([
-                'username' => $username[0],
-                'password' => $request->input('password')
-            ])) {
-
-                $att_login['logined_at'] = now();
-                $user->update($att_login);
-                //log
-                if (auth()->user()->group_id == 9 or auth()->user()->admin == 1) {
-                    $event = "系統管理者 " . auth()->user()->name . "(" . $request->input('username') . ") 登入";
-                    logging('6', $event, get_ip());
-                }
-                $user_power = UserPower::where('user_id', auth()->user()->id)
-                    ->where('power_type', 'A')
-                    ->first();
-                if (auth()->user()->group_id == 8 or (!empty(auth()->user()->section_id) and !empty($user_power))) {
-                    $event = "科室管理者 " . auth()->user()->name . "(" . $request->input('username') . ") 登入";
-                    logging('6', $event, get_ip());
-                }
-
-                if (session('login_error')) {
-                    session(['login_error' => 0]);
-                }
-                
-                //教育處人員
-                if (auth()->user()->section_id) {
-                    return redirect()->route('posts.reviewing');
-                }
-                //其他學校單位
-                if (auth()->user()->other_code) {
-                    return redirect()->route('posts.showSigned_other');
-                }
-                //學校單位
-                if (auth()->user()->code) {
-                    return redirect()->route('posts.showSigned');
-                }
-                //其餘者
-                return redirect()->route('index');
+            //if (Auth::attempt([
+            //    'username' => $username[0],
+            //    'password' => $request->input('password')
+            //])) {
+            //}
+            Auth::login($user);
+            
+            $att_login['logined_at'] = now();
+            $user->update($att_login);
+            //log
+            if (auth()->user()->group_id == 9 or auth()->user()->admin == 1) {
+                $event = "系統管理者 " . auth()->user()->name . "(" . $request->input('username') . ") 登入";
+                logging('6', $event, get_ip());
             }
+            $user_power = UserPower::where('user_id', auth()->user()->id)
+                ->where('power_type', 'A')
+                ->first();
+            if (auth()->user()->group_id == 8 or (!empty(auth()->user()->section_id) and !empty($user_power))) {
+                $event = "科室管理者 " . auth()->user()->name . "(" . $request->input('username') . ") 登入";
+                logging('6', $event, get_ip());
+            }
+
+            if (session('login_error')) {
+                session(['login_error' => 0]);
+            }
+            
+            //教育處人員
+            if (auth()->user()->section_id) {
+                return redirect()->route('posts.reviewing');
+            }
+            //其他學校單位
+            if (auth()->user()->other_code) {
+                return redirect()->route('posts.showSigned_other');
+            }
+            //學校單位
+            if (auth()->user()->code) {
+                return redirect()->route('posts.showSigned');
+            }
+            //其餘者
+            return redirect()->route('index');
         };
 
         //密碼錯了，就記錄
