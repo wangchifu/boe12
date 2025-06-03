@@ -131,4 +131,36 @@ class SimulationController extends Controller
         ];
         return view('sims.search',$data);
     }
+
+    public function check(){
+        $users = User::where('edu_key','!=','')
+            ->where('edu_key','!=',null)            
+            ->get();
+        foreach($users as $user){
+          $check_user[$user->id] = $user->edu_key;
+          $userid2name[$user->id]['name'] = $user->name;          
+          $userid2name[$user->id]['school'] = $user->school;
+          $userid2name[$user->id]['title'] = $user->title;
+          $userid2name[$user->id]['date'] = $user->updated_at;
+          $userid2name[$user->id]['disable'] = $user->disable;
+        }
+
+        $valuesMap = [];
+
+        foreach ($check_user as $key => $value) {
+            $valuesMap[$value][] = $key;
+        }
+
+        $duplicates = array_filter($valuesMap, function ($keys) {
+            return count($keys) > 1;
+        });
+
+        //dd($duplicates);
+
+        $data = [
+            'userid2name'=>$userid2name,
+            'duplicates'=>$duplicates,
+        ];
+        return view('sims.check',$data);
+    }    
 }

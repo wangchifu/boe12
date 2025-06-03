@@ -133,6 +133,7 @@ Route::group(['middleware' => 'admin'],function(){
     Route::get('sims/{group_id}/group' , [SimulationController::class,'group'])->name('sims.group');
     Route::get('sims/{user}/impersonate', [SimulationController::class,'impersonate'])->name('sims.impersonate');
     Route::match(['post','get'],'sims',[SimulationController::class,'search'])->name('sims.search');
+    Route::get('sims/check' , [SimulationController::class,'check'])->name('sims.check');
 
     //教育處介紹
     Route::get('introduction/index', [IntroductionController::class,'index'])->name('introductions.index');

@@ -27,6 +27,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('sims.group','3') }}">系統管理者</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('sims.check') }}">檢查重複</a>
+                        </li>
                     </ul>
                     @include('sims.form')
                     {{ $users->links('layouts.simple-pagination') }}
