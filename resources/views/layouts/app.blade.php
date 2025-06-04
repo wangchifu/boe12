@@ -44,8 +44,7 @@
   -->
   @yield('custom_css')
 
-  <script src="{{ env('APP_URL') }}/js/jquery-3.7.1.min.js"></script>
-  <script src="{{ env('APP_URL') }}/js/jquery.validate.js"></script>
+  <script src="{{ env('APP_URL') }}/js/jquery-3.7.1.min.js"></script>  
   
   <!-- =======================================================
   * Template Name: ZenBlog - v1.2.1
